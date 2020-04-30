@@ -1,0 +1,31 @@
+// ----------- __@imports__ ------------
+@import "./NMTD_presets/narrow";
+@import "./devs/flex", "./devs/grid", "./devs/bootstrap", "./devs/media_queries";
+
+// -------------------------------------
+$mediaQ: screen tablet;
+@include media($mediaQ) {
+    body {
+        height: 100vh; 
+        $grid-template-columns: main 4 side 1 side 1;
+        $grid-template-rows: head 1 head 1 main 4 foot 1 foot 1;
+        @include grid($grid-template-columns, $grid-template-rows);
+    }
+
+    header {        
+        $grid-column: side 1;
+        $grid-row: head 2 to main 1;
+        @include grid-item($grid-column, $grid-row);
+        $flex-items: column top left wrap;
+        @include flex($flex-items);       
+    }
+
+    footer {
+        $grid-column: full;
+        $grid-row: foot 1 to foot 2;
+        @include grid-item($grid-column, $grid-row);
+        $flex-items: justify center column;
+        @include flex($flex-items);    
+    }
+
+}

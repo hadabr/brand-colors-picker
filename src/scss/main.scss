@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+// 0. Vendors
+@import "vendors/normalize";
+
+// 1. Base
+@import "base/base", "base/fonts", "base/typography";
+
+// 2. Layout
+@import "layout/assemble";
+
+// 3. Themes
+@import "themes/default", "themes/night_mode";
+// @import "base/default_colors";
+
+// 4. UI
+// _header_
+@import "ui/header_menu";
+// _sidebars_
+@import "ui/sidebar_left", "ui/sidebar_right";
+// _main_
+@import "ui/content_navigation";
+// _footer_
+// @import "ui/pagination";
+
+// 5. Content
+// @import "content/articles", "content/posts", "content/comments", "content/messages";
+// @import "content/about", "content/gallery_by_plate", "content/gallery_by_list";
+// _media_
+// @import "media_components/video", "media_components/audio";
+// _forms and inputs_
+
+// 6. Pages
+// @import "pages/home";
+
+
+
+// 8. Custom 

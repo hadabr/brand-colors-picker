@@ -1,0 +1,59 @@
+// ----------- __@imports__ ------------
+@use "sass:meta";
+@use "sass:list";
+@use "sass:string";
+@import "devs_functions", "devs_mixins";
+@import "../breakpoints";
+// -------------------------------------
+// --------- __media_queries__ ---------
+$breakpoints-mapValues: map-values($breakpoints-map);
+$breakpoints-mapKeys: map-keys($breakpoints-map);
+// save base media features and types values in the map:
+@function mediaQ-map-func($arg) {
+    $mediaQ-map: (
+        "only": "only",
+        "all": "all", 
+        "screen": "screen",
+        "print": "print",
+        "retina": "(-webkit-min-device-pixel-ratio: #{$device-pixel-ratio}), (min--moz-device-pixel-ratio: #{$device-pixel-ratio}), (-o-min-device-pixel-ratio: #{$device-pixel-ratio}), (min-device-pixel-ratio: #{$device-pixel-ratio}), (min-resolution: #{$min-resolution})"
+    );
+    // append to the map the breakpoints entries:
+    @for $i from 1 through length($breakpoints-map) {
+        @if ($i == 1) {
+            $mediaQ-map: map-merge($mediaQ-map, (#{nth($breakpoints-mapKeys, $i)}: "(max-width: #{nth($breakpoints-mapValues, $i)})"))
+        } @else if ($i == length($breakpoints-map)) {
+            $mediaQ-map: map-merge($mediaQ-map, (#{nth($breakpoints-mapKeys, $i)}: "(min-width: #{nth($breakpoints-mapValues, length($breakpoints-map)-1) + 1})"))
+        } @else {
+            $mediaQ-map: map-merge($mediaQ-map, (#{nth($breakpoints-mapKeys, $i)}: "(min-width: #{nth($breakpoints-mapValues, $i - 1) + 1}) and (max-width: #{nth($breakpoints-mapValues, $i)})"))
+        }
+    }
+    @return map-get($mediaQ-map, $arg);
+}
+// mixin for @media rule; arguments are media types, features and breakpoints
+@mixin media($str) {
+    $media-query: "";
+    @if (nth($str, 1) == "only") {
+        $media-query: "only ";
+        @for $i from 2 through length($str) {
+            $and: "";   
+            @if ($media-query != "" and $media-query != "only ") {
+                $and: " and ";
+            }
+            $media-query: $media-query + $and + mediaQ-map-func(nth($str, $i));
+        }
+        @media #{$media-query} {
+            @content;
+        }
+    } @else {
+        @each $key in $str {
+            $and: "";   
+            @if ($media-query != "" and $media-query != "only") {
+                $and: " and ";
+            }
+            $media-query: $media-query + $and + mediaQ-map-func($key);
+        }
+        @media #{$media-query} {
+            @content;
+        }
+    }        
+}

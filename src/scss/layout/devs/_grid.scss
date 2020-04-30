@@ -1,0 +1,83 @@
+// ----------- __@imports__ ------------
+@use "sass:meta";
+@use "sass:list";
+@use "sass:string";
+@import "devs_functions", "devs_mixins";
+// -------------------------------------
+// every element that has "display: grid" is a grid container;
+// every container nested element is a grid item
+// unlike containers, items can be not "display: grid"
+// position in a grid for an item:
+@function grid($str) {
+    $str: append($str, "full-end", auto);
+    $tempStorageReturn: "[full-start " + nth($str, 1) + "-1-start]";
+    $start-or-end: "";
+    $sideCounter: 0;
+    $mainCounter: 0;
+    $headCounter: 0;
+    $footCounter: 0;
+    $counter: 0;
+    $end-gridLine: false;
+    $end-gridLineStorage: "";
+    @each $key in $str {
+        @if(meta.type-of($key) == number) {
+            $end-gridLine: true;
+            $tempStorageReturn: $tempStorageReturn + " " + $key + "fr ";
+        } @else {
+            // counte same name lines
+            @if ($key == side) {
+                $sideCounter: $sideCounter + 1;
+                $counter: "-" +  $sideCounter;               
+            } @else if ($key == main) {
+                $mainCounter: $mainCounter + 1;
+                $counter: "-" +  $mainCounter;  
+            } @else if ($key == head) {
+                $headCounter: $headCounter + 1;
+                $counter: "-" +  $headCounter;  
+            } @else if ($key == foot) {
+                $footCounter: $footCounter + 1;
+                $counter: "-" + $footCounter;  
+            } @else if ($key == "full-end") {
+                $counter: "";
+                $and: "";
+            }
+            // create names
+            @if ($end-gridLine == false) {
+                $start-or-end: "-end";
+                $end-gridLineStorage: $key + $counter + $start-or-end;
+            } @else if ($end-gridLine == true) {
+                $start-or-end: "-start";
+                $end-gridLineStorage: $end-gridLineStorage + " " + $key + $counter + $start-or-end;
+                $tempStorageReturn: $tempStorageReturn + "[" + $end-gridLineStorage + "]";
+                $start-or-end: "-end";
+                $end-gridLineStorage: $key + $counter + $start-or-end;
+            } 
+            $end-gridLine: false;
+            $and: " ";
+        }
+    }
+    @return string.unquote($tempStorageReturn);
+}
+@mixin grid($cols: false, $rows: false) {
+    display: grid;
+    grid-template-columns: grid($cols);
+    grid-template-rows: grid($rows);
+}
+@function grid-item($str) {
+    $tempStorageReturn: "";
+    @each $key in $str {
+        @if(meta.type-of($key) == number) {
+            $tempStorageReturn: $tempStorageReturn + "-" + $key;
+        } @else if ($key == to) {
+            $tempStorageReturn: $tempStorageReturn + " / "
+        } @else {
+            $tempStorageReturn: $tempStorageReturn + $key;
+        }
+    }
+    @return string.unquote($tempStorageReturn);
+}
+@mixin grid-item($col: false, $row: false) {
+    @if ($col != false) {grid-column: grid-item($col);}
+    @if ($row != false) {grid-row: grid-item($row);}
+}
+// preset for grid container:

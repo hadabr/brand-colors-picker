@@ -1,0 +1,16 @@
+// here to set pattern breakpointName:
+// @mixin gridBp-breakpointName {
+//    customSelector {
+//        grid-template-columns: grid( ... ) 
+//        ; grid-template-rows: grid( ... ) 
+//        ;
+//    }
+//    ...selector {...}
+// }
+// ...
+
+// in grid.scss:
+
+// gridBp-breakpointName-1: ...px
+// ; gridBp-breakpointName-...
+

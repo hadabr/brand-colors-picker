@@ -1,0 +1,33 @@
+// ----------- __@imports__ ------------
+
+// -------------------------------------
+// ___________ breakpoints _____________
+// breakpoints are context- and pattern-based, i.e. here is used narrow-mobile-tablet-desktop pattern [NMTD]
+// but can be used any custom breakpoint pattern - i.e. "iphoneXS", "ipad", "wide" etc.
+// of course the order - from tiny to wide - is strickly important;
+// easier for rework - it's enough to set only $gridBp- names (breakpointName's) if you start new pattern
+// or change only $gridBp- values - if you use existing pattern - to run responsive grid
+// every entry is set for {max-width}; {min-width} will be set automatically; by [NMTD] "desktop" has no -max
+$breakpoints-map: (
+  "narrow": 320px
+, "mobile": 540px
+, "tablet": 768px
+, "desktop": ""
+);
+// retina:
+$device-pixel-ratio: 1.5;
+$min-resolution: 192dpi;
+// in layout media query set-ups that would look like
+//
+// $mediaQ: screen tablet;
+// @include mediaQ($mediaQ) {
+//    customSelector  {
+//        $grid-template-columns: ...; 
+//        $grid-template-rows: ...;
+//        @include grid($grid-template-columns, $grid-template-rows); 
+//    }
+//    ...selector {...}
+//}
+
+
+

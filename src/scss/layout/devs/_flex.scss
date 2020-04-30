@@ -1,0 +1,90 @@
+// ----------- __@imports__ ------------
+@use "sass:meta";
+@use "sass:list";
+@use "sass:string";
+@import "devs_functions", "devs_mixins";
+// -------------------------------------
+$flexMap-prop-column: ( //
+  "column": "flex-direction nonrule",
+  "wrap": "flex-wrap nonrule",
+  "no-wrap": "flex-wrap nonrule",
+  "left": "align-items align-items",
+  "right": "align-items align-items",
+  "justify": "justify-content align-content",
+  "justify-around": "justify-content align-content",
+  "justify-evenly": "justify-content align-content",
+  "top": "justify-content justify-content",
+  "bottom": "justify-content justify-content",
+  "scretch": "justify-content justify-content",
+  "center": "justify-content align-items"//
+  );
+$flexMap-val-column: ( //
+  "column": "column",
+  "wrap": "wrap",
+  "no-wrap": "no-wrap",
+  "left": "flex-start",
+  "right": "flex-end",
+  "justify": "space-between",
+  "justify-around": "space-around",
+  "justify-evenly": "space-between",
+  "top": "flex-start",
+  "bottom": "flex-end",
+  "scretch": "space-between",
+  "center": "center"
+);
+$flexMap-prop-row: ( //
+  "row": "flex-direction nonrule",
+  "wrap": "flex-wrap nonrule",
+  "no-wrap": "flex-wrap nonrule",
+  "left": "justify-content justify-content",
+  "right": "justify-content justify-content",
+  "justify": "align-content justify-content",
+  "justify-around": "align-content justify-content",
+  "justify-evenly": "align-content justify-content",
+  "top": "align-items align-items",
+  "bottom": "align-items align-items",
+  "scretch": "align-items align-items",
+  "center": "align-items justify-content" //
+  );
+$flexMap-val-row: ( //
+  "row": "row",
+  "wrap": "wrap",
+  "no-wrap": "no-wrap",
+  "left": "flex-start",
+  "right": "flex-end",
+  "justify": "space-between",
+  "justify-around": "space-around",
+  "justify-evenly": "space-evenly",
+  "top": "flex-start",
+  "bottom": "flex-end",
+  "scretch": "scretch",
+  "center": "center"
+);
+
+@mixin flex($str) {
+  display: flex;
+  $alignWasSet: false;
+  $temp-prop-map: ();
+  $temp-val-map: ();
+  @if list.index($str, column) {
+    $temp-prop-map: $flexMap-prop-column;
+    $temp-val-map: $flexMap-val-column;
+  } @else {
+    $temp-prop-map: $flexMap-prop-row;
+    $temp-val-map: $flexMap-val-row;
+  }
+  @each $arg in $str {
+    $prop: str-to-list(map-get($temp-prop-map, $arg));
+    $val: map-get($temp-val-map, $arg);
+    @if ($arg == "wrap" or $arg == "no-wrap" or $arg == "row" or $arg == "column") {
+      #{nth($prop, 1)}: #{$val};
+    } @else {
+      @if ($alignWasSet == false) { 
+        #{nth($prop, 1)}: #{$val};
+        $alignWasSet: true;
+      } @else {
+        #{nth($prop, 2)}: #{$val};
+      }
+    }
+  }
+}

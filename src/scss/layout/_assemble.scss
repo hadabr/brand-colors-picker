@@ -1,0 +1,8 @@
+// set imports according used breakpoints pattern
+// ----------- __@imports__ ------------
+@import "./common";
+@import "./narrow"
+, "./mobile"
+, "./tablet"
+, "./desktop";
+// -------------------------------------
