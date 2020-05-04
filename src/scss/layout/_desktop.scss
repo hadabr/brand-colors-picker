@@ -1,80 +1,85 @@
 // ----------- __@imports__ ------------
-@import "./NMTD_presets/narrow";
 @import "./devs/flex", "./devs/grid", "./devs/bootstrap", "./devs/media_queries";
 
 // -------------------------------------
-$mediaQ: only screen desktop;
+// ----------- shared rules ------------
 
+$root-row-template: head .4 main 1 foot .4;
+$main-col-template: side .6 main 1 side .6;
+$img-container-column: main 1;
+// -------------------------------------
+$mediaQ: only screen desktop;
 @include media($mediaQ) {
     body {
-        $grid-template-columns: side 1 main 2.5 side 1;
-        $grid-template-rows: head 1 main 2.5 foot 1;
+        $grid-template-columns: side 1 main 12.42;
+        $grid-template-rows: $root-row-template;
         @include grid($grid-template-columns, $grid-template-rows);
     }
-
-    header {
-        $grid-column: full;
-        $grid-row: head 1;
+// ------------- main --------------
+    main {
+        $grid-column: main 1;
+        $grid-row: full;
         @include grid-item($grid-column, $grid-row);
-        $grid-template-columns: side .05 side .95 main 2.5 side .95 side .05;
-        $grid-template-rows: head .05 main .9 foot .05;
+        $grid-template-columns: $main-col-template;
+        $grid-template-rows: head .4 main 1 foot .4;
         @include grid($grid-template-columns, $grid-template-rows);
-
-        nav {
-            $grid-column: side 2 to side 3;
+        .search {
+            $grid-column: $img-container-column;
+            $grid-row: head 1;
+            @include grid-item($grid-column, $grid-row);
+            $flex-items: top justify;
+            @include flex($flex-items);
+        }
+        .img-container {
+            $grid-column: $img-container-column;
             $grid-row: main 1;
+            @include grid-item($grid-column, $grid-row);
+            $flex-items: center center;
+            @include flex($flex-items);
+
+        }
+        .img-container-tools {
+            $grid-column: $img-container-column;
+            $grid-row: head 1;
             @include grid-item($grid-column, $grid-row);
             $flex-items: top left;
             @include flex($flex-items);
+            li {
+                $flex-items: bottom justify;
+                @include flex($flex-items);
+            }
         }
-
-        .pseudo-scroller {
-            $grid-column: main 1;
-            $grid-row: head 1;
+        .saves {
+            $grid-column: $img-container-column;
+            $grid-row: foot 1;
             @include grid-item($grid-column, $grid-row);
             $flex-items: top center;
             @include flex($flex-items);
-            div {
-                width: 100%;
-                height: 100%;
-                @include grid-item($grid-column, $grid-row);
-            }
         }
-    }
+        .brand-logo {
+            $grid-column: $img-container-column;
+            $grid-row: foot 1;
+            @include grid-item($grid-column, $grid-row);
+            $flex-items: bottom center;
+            @include flex($flex-items);
+        }
 
+    }
     aside.left {
         $grid-column: side 1;
-        $grid-row: main 1;
+        $grid-row: full;
         @include grid-item($grid-column, $grid-row);
-        $grid-template-columns: side .05 side .95;
-        $grid-template-rows: main 1;
+        $grid-template-columns: main 1;
+        $grid-template-rows: $root-row-template;
         @include grid($grid-template-columns, $grid-template-rows);
         ul {
-            $grid-column: side 2;
+            $grid-column: full;
             $grid-row: main 1;
             @include grid-item($grid-column, $grid-row);
-            width: 100%;
-            $flex-items: center left column;
-            @include flex($flex-items);
             li {
-                max-width: 20em;
+                $flex-items: center center column;
+                @include flex($flex-items);
             }
         }
-    }
-
-    main {
-        $grid-column: main 1;
-        $grid-row: main 1;
-        @include grid-item($grid-column, $grid-row);
-        $flex-items: center center;
-        @include flex($flex-items);
-    }
-
-    footer {
-        $grid-column: full;
-        $grid-row: foot 1;
-        @include grid-item($grid-column, $grid-row);
-        $flex-items: justify center column;
-        @include flex($flex-items);
-    }
+    } 
 }
