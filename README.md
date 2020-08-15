@@ -1,1 +1,1 @@
-![preview](./brandColorPicker.jpg =600)
+![preview](./brandColorPicker.jpg =600x)
