@@ -1,1 +1,4 @@
-<span style="display:block;text-align:center;width:600">![preview](./brandColorPicker.jpg)</span>
+
+<p align="center">
+  <img width="600px" src="./brandColorPicker.jpg">
+</p>
